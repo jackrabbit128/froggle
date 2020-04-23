@@ -10,8 +10,6 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.geom.Rectangle2D;
 import java.time.Duration;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -148,7 +146,7 @@ public final class BoardPane extends JPanel {
 
       @Override
       public void onRemainingTimeChanged(Duration remainingTime) {
-        String text = DateTimeFormatter.ISO_LOCAL_TIME.format(remainingTime.addTo(LocalTime.MIDNIGHT));
+        var text = String.format("%d:%02d", remainingTime.toMinutes(), remainingTime.toSecondsPart());
         _statusLabel.setText(text);
       }
     });
