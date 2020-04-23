@@ -1,3 +1,5 @@
-open module boggle {
+module boggle {
   requires java.desktop;
+
+  opens config;
 }

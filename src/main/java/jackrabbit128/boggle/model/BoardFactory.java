@@ -6,7 +6,7 @@ import java.util.Properties;
 
 public final class BoardFactory {
   public static Board createBoard(String language) throws IOException {
-    Properties configuration = loadConfiguration("/dice_" + language + ".properties");
+    Properties configuration = loadConfiguration("/config/dice_" + language + ".properties");
 
     return parseConfiguration(configuration);
   }
