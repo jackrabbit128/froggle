@@ -110,7 +110,7 @@ public final class BoardPane extends JPanel {
         for (int i = 0; i < _dieLabels.size(); i++) {
           var value = board.read(i / width, i % width);
           JLabel dieLabel = _dieLabels.get(i);
-          dieLabel.setText(String.valueOf(value));
+          dieLabel.setText(value);
         }
       }
 

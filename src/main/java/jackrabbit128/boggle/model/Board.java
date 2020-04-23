@@ -45,7 +45,7 @@ public final class Board {
     return _height;
   }
 
-  public char read(int row, int column) {
+  public String read(int row, int column) {
     return _dice.get(row * _width + column).read();
   }
 
