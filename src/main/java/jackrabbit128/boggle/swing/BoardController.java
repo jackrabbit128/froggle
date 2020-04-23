@@ -10,7 +10,18 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public final class BoardController {
-  private static final long GAME_DURATION = TimeUnit.MILLISECONDS.convert(1, TimeUnit.MINUTES);
+  private static final long GAME_DURATION;
+
+  static {
+    long gameDurationSec = 90;
+    String gameDurationSecProperty = System.getProperty("gameDurationSec", String.valueOf(gameDurationSec));
+    try {
+      gameDurationSec = Long.parseLong(gameDurationSecProperty);
+    } catch (NumberFormatException e) {
+      System.err.println("unable to parse system property 'gameDurationSec', using default value: " + gameDurationSec);
+    }
+    GAME_DURATION = TimeUnit.MILLISECONDS.convert(gameDurationSec, TimeUnit.SECONDS);
+  }
 
   public enum Status {
     READY,
