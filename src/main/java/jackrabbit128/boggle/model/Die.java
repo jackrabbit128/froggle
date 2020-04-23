@@ -1,32 +1,40 @@
 package jackrabbit128.boggle.model;
 
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public final class Die {
-  final String _letters;
+  final List<String> _options;
 
-  String _letter;
+  String _value;
 
   public Die(String letters) {
     if (letters.isBlank()) {
       throw new IllegalArgumentException("Die must have some letters, but was blank");
     }
 
-    _letters = letters;
-    _letter = _letters.substring(0, 1);
+    _options = List.copyOf(letters.chars()
+                               .mapToObj(v -> String.valueOf((char) v))
+                               .collect(Collectors.toList()));
+    _value = _options.get(0);
   }
 
   public void roll(Random random) {
-    int index = random.nextInt(_letters.length());
-    _letter = _letters.substring(index, index + 1);
+    int index = random.nextInt(_options.size());
+    _value = _options.get(index);
   }
 
   public String read() {
-    return _letter;
+    return _value;
+  }
+
+  public List<String> options() {
+    return _options;
   }
 
   @Override
   public String toString() {
-    return '[' + _letters + "]: " + _letter;
+    return _options.stream().collect(Collectors.joining(", ", "[", "]")) + ": " + _value;
   }
 }
