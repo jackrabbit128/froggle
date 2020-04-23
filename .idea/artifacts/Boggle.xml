@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact name="Boggle">
+    <output-path>$PROJECT_DIR$/out/artifacts/Boggle</output-path>
+    <root id="root">
+      <element id="archive" name="Boggle.jar">
+        <element id="module-output" name="Boggle" />
+      </element>
+    </root>
+  </artifact>
+</component>
