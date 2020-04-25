@@ -1,12 +1,16 @@
 package jackrabbit128.boggle.model;
 
+import jackrabbit128.boggle.io.ResourceLoader;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
 
 public final class BoardFactory {
   public static Board createBoard(String language) throws IOException {
-    Properties configuration = loadConfiguration("/config/dice_" + language + ".properties");
+    Properties configuration = ResourceLoader.loadProperties(BoardFactory.class,
+                                                             "/config/dice_" + language + ".properties"
+    );
 
     return parseConfiguration(configuration);
   }
@@ -34,18 +38,5 @@ public final class BoardFactory {
     } catch (NumberFormatException e) {
       throw new IOException("Expected value of " + key + " to be an int, but was: " + value);
     }
-  }
-
-  private static Properties loadConfiguration(String path) throws IOException {
-    var resource = BoardFactory.class.getResource(path);
-    if (resource == null) {
-      throw new IllegalStateException("Unable to find resource " + path);
-    }
-
-    var properties = new Properties();
-    try (var in = BoardFactory.class.getResourceAsStream(path)) {
-      properties.load(in);
-    }
-    return properties;
   }
 }
