@@ -1,8 +1,8 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Boggle" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="jackrabbit128.boggle.Main" />
-    <module name="Boggle" />
-    <option name="VM_PARAMETERS" value="-DgameDurationSec=5" />
+    <option name="MAIN_CLASS_NAME" value="jackrabbit128.boggle.App" />
+    <module name="boggle" />
+    <option name="VM_PARAMETERS" value="-Xdock:name=Boggle -DgameDurationSec=5" />
     <RunnerSettings RunnerId="Run" />
     <ConfigurationWrapper RunnerId="Run" />
     <method v="2">

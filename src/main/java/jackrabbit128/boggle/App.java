@@ -5,7 +5,7 @@ import jackrabbit128.boggle.swing.MainWindow;
 
 import java.io.IOException;
 
-public final class Main {
+public final class App {
   public static void main(String[] args) throws IOException {
     var board = BoardFactory.createBoard("nl");
 
