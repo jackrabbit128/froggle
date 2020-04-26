@@ -1,28 +1,15 @@
 package jackrabbit128.boggle.swing;
 
 import jackrabbit128.boggle.model.Board;
+import jackrabbit128.boggle.model.Settings;
 
 import javax.swing.*;
 import java.time.Duration;
-import java.time.temporal.ChronoUnit;
+import java.time.Instant;
 import java.util.Objects;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public final class BoardController {
-  private static final long GAME_DURATION;
-
-  static {
-    long gameDurationSec = 90;
-    String gameDurationSecProperty = System.getProperty("gameDurationSec", String.valueOf(gameDurationSec));
-    try {
-      gameDurationSec = Long.parseLong(gameDurationSecProperty);
-    } catch (NumberFormatException e) {
-      System.err.println("unable to parse system property 'gameDurationSec', using default value: " + gameDurationSec);
-    }
-    GAME_DURATION = TimeUnit.MILLISECONDS.convert(gameDurationSec, TimeUnit.SECONDS);
-  }
-
   public enum Status {
     READY,
     STARTED,
@@ -35,7 +22,8 @@ public final class BoardController {
   private Status _status;
 
   private final Timer _timer;
-  private long _timerStartTime;
+  private Duration _gameDuration;
+  private Instant _timerStart;
 
   private BoardView _view;
 
@@ -49,6 +37,7 @@ public final class BoardController {
     _timer = new Timer(200, e -> onTimerTick());
     _timer.setInitialDelay(0);
     _timer.setRepeats(true);
+    _gameDuration = Settings.getDefaultGameDuration();
   }
 
   public void setView(BoardView view) {
@@ -111,14 +100,15 @@ public final class BoardController {
   private void startTimer() {
     assert !_timer.isRunning();
 
-    _timerStartTime = System.currentTimeMillis();
+    _timerStart = Instant.now();
     _timer.start();
   }
 
   private void onTimerTick() {
-    long remaining = (_timerStartTime + GAME_DURATION) - System.currentTimeMillis();
-    if (remaining > 0) {
-      _view.onRemainingTimeChanged(Duration.of(remaining, ChronoUnit.MILLIS));
+    var timePassed = Duration.between(_timerStart, Instant.now());
+    var timeRemaining = _gameDuration.minus(timePassed);
+    if (!timeRemaining.isNegative()) {
+      _view.onRemainingTimeChanged(timeRemaining);
       return;
     }
 
