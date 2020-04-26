@@ -3,15 +3,36 @@ package jackrabbit128.boggle.model;
 import jackrabbit128.boggle.io.ResourceLoader;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 public final class BoardFactory {
-  public static Board createBoard(String language) throws IOException {
-    Properties configuration = ResourceLoader.loadProperties(BoardFactory.class,
-                                                             "/config/dice_" + language + ".properties"
-    );
+  private static final Collection<Locale> AVAILABLE_BOARDS = detectAvailableBoards();
+
+  private BoardFactory() {
+  }
+
+  private static List<Locale> detectAvailableBoards() {
+    Map<String, Locale> available = new HashMap<>();
+    for (Locale locale : Locale.getAvailableLocales()) {
+      if (ResourceLoader.resourceExists(BoardFactory.class, getBoardResourcePath(locale))) {
+        available.merge(locale.getLanguage(), locale,
+                        (theOld, theNew) -> theNew.getCountry().isEmpty() ? theNew : theOld);
+      }
+    }
+    return List.copyOf(available.values());
+  }
+
+  private static String getBoardResourcePath(Locale locale) {
+    return "/config/dice_" + locale.getLanguage() + ".properties";
+  }
+
+  public static Collection<Locale> getAvailableBoards() {
+    return AVAILABLE_BOARDS;
+  }
+
+  public static Board createBoard(Locale locale) throws IOException {
+    String path = getBoardResourcePath(locale);
+    Properties configuration = ResourceLoader.loadProperties(BoardFactory.class, path);
 
     return parseConfiguration(configuration);
   }
