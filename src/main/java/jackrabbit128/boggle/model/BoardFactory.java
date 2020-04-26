@@ -4,6 +4,7 @@ import jackrabbit128.boggle.io.ResourceLoader;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public final class BoardFactory {
@@ -21,8 +22,9 @@ public final class BoardFactory {
 
     var dice = new ArrayList<Die>();
     for (int i = 0; properties.containsKey("die" + i); ++i) {
-      String letters = properties.getProperty("die" + i);
-      dice.add(new Die(letters));
+      var value = properties.getProperty("die" + i);
+      var options = List.of(value.split(","));
+      dice.add(new Die(options));
     }
     return new Board(width, height, dice);
   }

@@ -1,5 +1,6 @@
 package jackrabbit128.boggle.model;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -9,14 +10,12 @@ public final class Die {
 
   String _value;
 
-  public Die(String letters) {
-    if (letters.isBlank()) {
-      throw new IllegalArgumentException("Die must have some letters, but was blank");
+  public Die(Collection<String> options) {
+    if (options.isEmpty()) {
+      throw new IllegalArgumentException("Die must have some options, but was empty");
     }
 
-    _options = List.copyOf(letters.chars()
-                               .mapToObj(v -> String.valueOf((char) v))
-                               .collect(Collectors.toList()));
+    _options = List.copyOf(options);
     _value = _options.get(0);
   }
 
