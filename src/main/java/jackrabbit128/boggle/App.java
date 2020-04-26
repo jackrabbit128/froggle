@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public final class App {
   public static void main(String[] args) throws IOException {
-    var board = BoardFactory.createBoard("nl");
+    var board = BoardFactory.createBoard("en");
 
     new MainWindow(board);
   }

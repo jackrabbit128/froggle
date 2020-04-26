@@ -8,7 +8,6 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.geom.Rectangle2D;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -110,6 +109,7 @@ public final class BoardPane extends JPanel {
           JLabel dieLabel = _dieLabels.get(i);
           dieLabel.setText(value);
         }
+        adjustFontSizes();
       }
 
       @Override
@@ -153,29 +153,31 @@ public final class BoardPane extends JPanel {
   }
 
   private void adjustFontSizes() {
-    JLabel prototype = _dieLabels.get(0);
-    Dimension available = prototype.getSize();
-
-    Font oldFont = prototype.getFont();
-    FontMetrics metrics = prototype.getFontMetrics(oldFont);
-    Rectangle2D needed = metrics.getStringBounds("M", prototype.getGraphics());
-    double factor = Math.min(available.getWidth() / needed.getWidth(),
-                             available.getHeight() / needed.getHeight());
-
-    float newSize = (int) Math.floor(oldFont.getSize2D() * factor);
-    Font font;
-    do {
-      if (newSize < 10) {
-        return;
-      }
-
-      font = oldFont.deriveFont(newSize--);
-      metrics = prototype.getFontMetrics(font);
-      needed = metrics.getStringBounds("M", prototype.getGraphics());
-    } while (needed.getWidth() > available.getWidth() ||
-             needed.getHeight() > available.getHeight());
-
     for (JLabel dieLabel : _dieLabels) {
+      Dimension size = dieLabel.getSize();
+      Insets insets = dieLabel.getInsets();
+      var available = new Dimension((int) Math.floor(size.getWidth() - insets.left - insets.right - 2),
+                                    (int) Math.floor(size.getHeight() - insets.top - insets.bottom - 2));
+
+      var oldFont = dieLabel.getFont();
+      var metrics = dieLabel.getFontMetrics(oldFont);
+      var needed = metrics.getStringBounds(dieLabel.getText(), dieLabel.getGraphics());
+      var factor = Math.min(available.getWidth() / needed.getWidth(),
+                            available.getHeight() / needed.getHeight());
+
+      float newSize = (int) Math.floor(oldFont.getSize2D() * factor);
+      Font font;
+      do {
+        if (newSize < 10) {
+          return;
+        }
+
+        font = oldFont.deriveFont(newSize--);
+        metrics = dieLabel.getFontMetrics(font);
+        needed = metrics.getStringBounds(dieLabel.getText(), dieLabel.getGraphics());
+      } while (needed.getWidth() > available.getWidth() ||
+               needed.getHeight() > available.getHeight());
+
       dieLabel.setFont(font);
     }
   }
