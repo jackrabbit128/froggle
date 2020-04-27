@@ -1,6 +1,6 @@
-package jackrabbit128.boggle.swing;
+package jackrabbit128.broggle.swing;
 
-import jackrabbit128.boggle.AppInfo;
+import jackrabbit128.broggle.AppInfo;
 
 import javax.swing.*;
 import java.awt.*;

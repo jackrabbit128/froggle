@@ -1,7 +1,7 @@
-package jackrabbit128.boggle.swing;
+package jackrabbit128.broggle.swing;
 
-import jackrabbit128.boggle.model.BoardFactory;
-import jackrabbit128.boggle.model.Settings;
+import jackrabbit128.broggle.model.BoardFactory;
+import jackrabbit128.broggle.model.Settings;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;

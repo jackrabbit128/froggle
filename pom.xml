@@ -3,11 +3,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>jackrabbit128</groupId>
-  <artifactId>boggle</artifactId>
+  <artifactId>broggle</artifactId>
   <version>1.1-SNAPSHOT</version>
 
-  <name>Boggle</name>
-  <description>A simple Boggle game that allows controlling the random seed for remote playing.</description>
+  <name>Broggle</name>
+  <description>
+    A simple Boggle-like word-finding game to play with my brother.
+    It allows controlling the random seed so that remote players can sync up.
+  </description>
   <licenses>
     <license>
       <name>MIT</name>
@@ -18,7 +21,7 @@
 
   <developers>
     <developer>
-      <name>Dieter Vrancken</name>
+      <name>jackrabbit128</name>
       <email>jackrabbit128@gmail.com</email>
       <timezone>1</timezone>
     </developer>
@@ -76,18 +79,46 @@
           <artifactId>maven-deploy-plugin</artifactId>
           <version>3.0.0-M1</version>
         </plugin>
-        <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-enforcer-plugin</artifactId><version>3.0.0-M3</version></plugin>
-        <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-install-plugin</artifactId><version>3.0.0-M1</version></plugin>
-        <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-jar-plugin</artifactId><version>3.2.0</version></plugin>
-        <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-release-plugin</artifactId><version>3.0.0-M1</version></plugin>
-        <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-resources-plugin</artifactId><version>3.1.0</version></plugin>
-        <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-site-plugin</artifactId><version>3.9.0</version></plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>3.0.0-M3</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>3.0.0-M1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.2.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>3.0.0-M1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.1.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.9.0</version>
+        </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.22.2</version>
         </plugin>
-        <plugin><groupId>org.codehaus.mojo</groupId><artifactId>versions-maven-plugin</artifactId><version>2.7</version></plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>versions-maven-plugin</artifactId>
+          <version>2.7</version>
+        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -110,7 +141,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>jackrabbit128.boggle.App</mainClass>
+              <mainClass>jackrabbit128.broggle.App</mainClass>
             </manifest>
           </archive>
         </configuration>

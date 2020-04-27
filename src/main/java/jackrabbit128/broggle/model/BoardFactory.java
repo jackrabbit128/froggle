@@ -1,6 +1,6 @@
-package jackrabbit128.boggle.model;
+package jackrabbit128.broggle.model;
 
-import jackrabbit128.boggle.io.ResourceLoader;
+import jackrabbit128.broggle.io.ResourceLoader;
 
 import java.io.IOException;
 import java.util.*;

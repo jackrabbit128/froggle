@@ -1,6 +1,6 @@
-package jackrabbit128.boggle;
+package jackrabbit128.broggle;
 
-import jackrabbit128.boggle.io.ResourceLoader;
+import jackrabbit128.broggle.io.ResourceLoader;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -21,7 +21,7 @@ public final class AppInfo {
   }
 
   private static AppInfo loadAppInfo() {
-    String appName = "Boggle";
+    String appName = "Broggle";
     String version = "development";
     String copyright = "copyright by me";
 

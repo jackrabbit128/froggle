@@ -1,4 +1,4 @@
-package jackrabbit128.boggle.swing;
+package jackrabbit128.broggle.swing;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,4 +1,4 @@
-package jackrabbit128.boggle.model;
+package jackrabbit128.broggle.model;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
