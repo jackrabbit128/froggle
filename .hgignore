@@ -1,5 +1,6 @@
 syntax: glob
 .idea/codeStyles/
+.idea/shelf/
 .idea/compiler.xml
 .idea/encodings.xml
 .idea/jarRepositories.xml
