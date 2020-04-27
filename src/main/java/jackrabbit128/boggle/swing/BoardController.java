@@ -1,11 +1,14 @@
 package jackrabbit128.boggle.swing;
 
 import jackrabbit128.boggle.model.Board;
+import jackrabbit128.boggle.model.BoardFactory;
 import jackrabbit128.boggle.model.Settings;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Random;
 
@@ -16,10 +19,11 @@ public final class BoardController {
     FINISHED,
   }
 
-  private final Board _board;
-  private final Random _random;
+  private final Settings _settings;
 
+  private final Random _random;
   private Status _status;
+  private Board _board;
 
   private final Timer _timer;
   private Duration _gameDuration;
@@ -27,17 +31,28 @@ public final class BoardController {
 
   private BoardView _view;
 
-  public BoardController(Board board) {
-    _board = Objects.requireNonNull(board, "board");
-    _random = new Random();
+  public BoardController(Settings settings) {
+    _settings = Objects.requireNonNull(settings, "settings");
 
-    _view = NoopView.INSTANCE;
+    _random = new Random();
+    _board = createBoard();
     _status = Status.READY;
 
     _timer = new Timer(200, e -> onTimerTick());
     _timer.setInitialDelay(0);
     _timer.setRepeats(true);
     _gameDuration = Settings.getDefaultGameDuration();
+
+    _view = NoopView.INSTANCE;
+  }
+
+  private Board createBoard() {
+    Locale language = _settings.getBoardLanguage();
+    try {
+      return BoardFactory.createBoard(language);
+    } catch (IOException e) {
+      throw new IllegalStateException("Unable to create board for language " + language.getDisplayLanguage(), e);
+    }
   }
 
   public void setView(BoardView view) {
@@ -78,6 +93,7 @@ public final class BoardController {
         _view.onStatusChanged(_status);
         break;
       case READY:
+        applySettings();
         shuffle();
         _view.onBoardShown();
         startTimer();
@@ -88,6 +104,17 @@ public final class BoardController {
         _status = Status.FINISHED;
         _view.onStatusChanged(_status);
         break;
+    }
+  }
+
+  private void applySettings() {
+    _gameDuration = _settings.getGameDuration();
+
+    if (!_settings.getBoardLanguage().equals(_board.getLanguage())) {
+      int oldWidth = _board.getWidth();
+      int oldHeight = _board.getHeight();
+      _board = createBoard();
+      _view.onBoardLanguageChanged(_board);
     }
   }
 
@@ -122,7 +149,7 @@ public final class BoardController {
     _timer.stop();
   }
 
-  public void shutdown() {
+  public void onShutdown() {
     _timer.stop();
   }
 
@@ -134,6 +161,10 @@ public final class BoardController {
 
     @Override
     public void onSeedChanged(int seed) {
+    }
+
+    @Override
+    public void onBoardLanguageChanged(Board board) {
     }
 
     @Override

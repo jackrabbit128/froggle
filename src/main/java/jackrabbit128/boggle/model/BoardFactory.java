@@ -34,20 +34,15 @@ public final class BoardFactory {
     String path = getBoardResourcePath(locale);
     Properties configuration = ResourceLoader.loadProperties(BoardFactory.class, path);
 
-    return parseConfiguration(configuration);
-  }
-
-  private static Board parseConfiguration(Properties properties) throws IOException {
-    var width = loadInt(properties, "width");
-    var height = loadInt(properties, "height");
-
+    var width = loadInt(configuration, "width");
+    var height = loadInt(configuration, "height");
     var dice = new ArrayList<Die>();
-    for (int i = 0; properties.containsKey("die" + i); ++i) {
-      var value = properties.getProperty("die" + i);
+    for (int i = 0; configuration.containsKey("die" + i); ++i) {
+      var value = configuration.getProperty("die" + i);
       var options = List.of(value.split(","));
       dice.add(new Die(options));
     }
-    return new Board(width, height, dice);
+    return new Board(width, height, locale, dice);
   }
 
   private static int loadInt(Properties properties, String key) throws IOException {

@@ -1,7 +1,6 @@
 package jackrabbit128.boggle.swing;
 
 import jackrabbit128.boggle.AppInfo;
-import jackrabbit128.boggle.model.Board;
 import jackrabbit128.boggle.model.Settings;
 
 import javax.swing.*;
@@ -13,12 +12,12 @@ public final class MainWindow extends JFrame {
   private final BoardController _boardController;
   private final SettingsController _settingsController;
 
-  public MainWindow(Board board) {
+  public MainWindow() {
     super(AppInfo.getInstance().getAppName());
 
     Settings settings = new Settings();
 
-    _boardController = new BoardController(board);
+    _boardController = new BoardController(settings);
     var boardPane = new BoardPane(_boardController);
     boardPane.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
 
@@ -39,7 +38,7 @@ public final class MainWindow extends JFrame {
     addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosed(WindowEvent e) {
-        _boardController.shutdown();
+        _boardController.onShutdown();
       }
     });
     pack();

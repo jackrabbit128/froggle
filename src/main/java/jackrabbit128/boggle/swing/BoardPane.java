@@ -11,6 +11,7 @@ import java.awt.event.FocusEvent;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public final class BoardPane extends JPanel {
   private static final int HGAP = 4;
@@ -19,10 +20,12 @@ public final class BoardPane extends JPanel {
   private final BoardController _controller;
 
   private final JButton _readyGoButton;
+  private final JLabel _languageLabel;
   private final JButton _genSeedButton;
   private final JSpinner _seedField;
 
-  private final List<JLabel> _dieLabels;
+  private final JPanel _dicePanel;
+  private final List<JLabel> _diceLabels;
 
   private final JLabel _statusLabel;
 
@@ -30,47 +33,37 @@ public final class BoardPane extends JPanel {
     _controller = controller;
 
     _readyGoButton = new JButton("Ready");
+    _languageLabel = new JLabel("Language");
     _genSeedButton = new JButton("New Seed");
     _seedField = new JSpinner(new SpinnerNumberModel(_controller.generateSeed(),
                                                      _controller.getMinimumSeed(), _controller.getMaximumSeed(),
                                                      1));
+    _seedField.setPreferredSize(new Dimension(100, _seedField.getPreferredSize().height));
 
-    int width = _controller.getBoard().getWidth();
-    int height = _controller.getBoard().getHeight();
-    _dieLabels = new ArrayList<>(width * height);
-    for (int i = 0; i < width * height; i++) {
-      _dieLabels.add(new JLabel());
-    }
+    _dicePanel = new JPanel(new GridLayout(1, 1, HGAP, VGAP));
+    _diceLabels = new ArrayList<>();
 
     _statusLabel = new JLabel("Press Start to play!");
 
     initLayout();
     initBehavior();
+    applyBoardStructure();
   }
 
   private void initLayout() {
     setLayout(new BorderLayout(HGAP, VGAP));
 
-    var topPanel = new JToolBar(JToolBar.HORIZONTAL);
+    JToolBar topPanel = new JToolBar(SwingConstants.HORIZONTAL);
     topPanel.setFloatable(false);
     topPanel.add(_readyGoButton);
+    topPanel.add(Box.createHorizontalStrut(HGAP));
+    topPanel.add(_languageLabel);
     topPanel.add(Box.createHorizontalGlue());
     topPanel.add(_genSeedButton);
     topPanel.add(_seedField);
     add(topPanel, BorderLayout.NORTH);
 
-    int height = _controller.getBoard().getHeight();
-    int width = _controller.getBoard().getWidth();
-    var boardPanel = new JPanel(new GridLayout(height, width, HGAP, VGAP));
-    Color gridColor = boardPanel.getBackground().darker();
-    for (JLabel dieLabel : _dieLabels) {
-      dieLabel.setHorizontalAlignment(SwingConstants.CENTER);
-      dieLabel.setVerticalAlignment(SwingConstants.CENTER);
-      dieLabel.setBorder(BorderFactory.createLineBorder(gridColor, 1, true));
-      dieLabel.setPreferredSize(new Dimension(100, 100));
-      boardPanel.add(dieLabel);
-    }
-    add(boardPanel, BorderLayout.CENTER);
+    add(_dicePanel, BorderLayout.CENTER);
 
     var bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
     bottomPanel.add(_statusLabel);
@@ -102,11 +95,16 @@ public final class BoardPane extends JPanel {
       }
 
       @Override
+      public void onBoardLanguageChanged(Board board) {
+        applyBoardStructure();
+      }
+
+      @Override
       public void onBoardChanged(Board board) {
         int width = board.getWidth();
-        for (int i = 0; i < _dieLabels.size(); i++) {
+        for (int i = 0; i < _diceLabels.size(); i++) {
           var value = board.read(i / width, i % width);
-          JLabel dieLabel = _dieLabels.get(i);
+          JLabel dieLabel = _diceLabels.get(i);
           dieLabel.setText(value);
         }
         adjustFontSizes();
@@ -114,8 +112,8 @@ public final class BoardPane extends JPanel {
 
       @Override
       public void onBoardHidden() {
-        for (JLabel dieLabel : _dieLabels) {
-          dieLabel.setText("?");
+        for (JLabel dieLabel : _diceLabels) {
+          dieLabel.setText(" ");
         }
       }
 
@@ -152,8 +150,35 @@ public final class BoardPane extends JPanel {
     });
   }
 
+  private void applyBoardStructure() {
+    _dicePanel.removeAll();
+    _diceLabels.clear();
+
+    int width = _controller.getBoard().getWidth();
+    int height = _controller.getBoard().getHeight();
+    _dicePanel.setLayout(new GridLayout(height, width, HGAP, VGAP));
+    var gridColor = _dicePanel.getBackground().darker();
+    for (int i = 0; i < width * height; i++) {
+      JLabel dieLabel = new JLabel();
+      dieLabel.setHorizontalAlignment(SwingConstants.CENTER);
+      dieLabel.setVerticalAlignment(SwingConstants.CENTER);
+      dieLabel.setBorder(BorderFactory.createLineBorder(gridColor, 1, true));
+      dieLabel.setPreferredSize(new Dimension(100, 100));
+      _diceLabels.add(dieLabel);
+      _dicePanel.add(dieLabel);
+    }
+
+    // We need this to happen immediately because otherwise adjustFontSizes
+    // does not get correct component sizes. All other invalidation methods
+    // recompute the layout only on the next repaint.
+    _dicePanel.validate();
+
+    Locale locale = _controller.getBoard().getLanguage();
+    _languageLabel.setText(locale.getDisplayLanguage(locale));
+  }
+
   private void adjustFontSizes() {
-    for (JLabel dieLabel : _dieLabels) {
+    for (JLabel dieLabel : _diceLabels) {
       Dimension size = dieLabel.getSize();
       Insets insets = dieLabel.getInsets();
       var available = new Dimension((int) Math.floor(size.getWidth() - insets.left - insets.right - 2),

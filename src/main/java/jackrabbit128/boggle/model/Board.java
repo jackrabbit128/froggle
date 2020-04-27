@@ -7,11 +7,13 @@ import java.util.stream.IntStream;
 public final class Board {
   private final int _width;
   private final int _height;
+  private final Locale _language;
   private final List<Die> _sortedDice;
 
   private List<Die> _dice;
 
-  public Board(int width, int height, Collection<Die> dice) {
+  public Board(int width, int height, Locale language, Collection<Die> dice) {
+    _language = language;
     if (width * height != dice.size()) {
       throw new IllegalArgumentException("expected " + width * height + " dice, but got " + dice.size());
     }
@@ -50,9 +52,14 @@ public final class Board {
     return _dice.get(row * _width + column).read();
   }
 
+  public Locale getLanguage() {
+    return _language;
+  }
+
   @Override
   public String toString() {
     var builder = new StringBuilder();
+    builder.append("Board (").append(_language.getDisplayLanguage()).append(")\n");
     for (int row = 0; row < _height; row++) {
       for (int column = 0; column < _width; column++) {
         builder.append(read(row, column)).append(' ');
