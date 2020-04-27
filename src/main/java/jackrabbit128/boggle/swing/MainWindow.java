@@ -16,15 +16,23 @@ public final class MainWindow extends JFrame {
     super(AppInfo.getInstance().getAppName());
 
     Settings settings = new Settings();
-
     _boardController = new BoardController(settings);
-    var boardPane = new BoardPane(_boardController);
-    boardPane.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
-
     _settingsController = new SettingsController(settings);
 
-    add(boardPane, BorderLayout.CENTER);
+    initLayout();
+    initMenuBar();
+    initBehavior();
+  }
 
+  private void initLayout() {
+    setLayout(new BorderLayout());
+
+    var boardPane = new BoardPane(_boardController);
+    boardPane.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+    add(boardPane, BorderLayout.CENTER);
+  }
+
+  private void initMenuBar() {
     if (Desktop.isDesktopSupported()) {
       Desktop desktop = Desktop.getDesktop();
       if (desktop.isSupported(Desktop.Action.APP_ABOUT)) {
@@ -34,16 +42,14 @@ public final class MainWindow extends JFrame {
         desktop.setPreferencesHandler(event -> SettingsPane.show(MainWindow.this, _settingsController));
       }
     }
+  }
 
+  private void initBehavior() {
     addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosed(WindowEvent e) {
         _boardController.onShutdown();
       }
     });
-    pack();
-    setLocationRelativeTo(null);
-    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    setVisible(true);
   }
 }
