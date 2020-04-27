@@ -149,6 +149,10 @@ public final class BoardController {
     _timer.stop();
   }
 
+  public boolean canShutdownSilently() {
+    return !_timer.isRunning();
+  }
+
   public void onShutdown() {
     _timer.stop();
   }

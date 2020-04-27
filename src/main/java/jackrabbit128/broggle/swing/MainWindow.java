@@ -5,6 +5,7 @@ import jackrabbit128.broggle.model.Settings;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.desktop.QuitStrategy;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -40,6 +41,25 @@ public final class MainWindow extends JFrame {
       }
       if (desktop.isSupported(Desktop.Action.APP_PREFERENCES)) {
         desktop.setPreferencesHandler(event -> SettingsPane.show(MainWindow.this, _settingsController));
+      }
+      if (desktop.isSupported(Desktop.Action.APP_QUIT_STRATEGY)) {
+        desktop.setQuitStrategy(QuitStrategy.CLOSE_ALL_WINDOWS);
+      }
+      if (desktop.isSupported(Desktop.Action.APP_QUIT_HANDLER)) {
+        desktop.setQuitHandler((event, response) -> {
+          if (_boardController.canShutdownSilently()) {
+            response.performQuit();
+            return;
+          }
+
+          int confirmation = JOptionPane.showConfirmDialog(MainWindow.this, "Game is in progress. Really quit?",
+                                                           "Confirm Exit", JOptionPane.YES_NO_OPTION);
+          if (confirmation == JOptionPane.YES_OPTION) {
+            response.performQuit();
+          } else {
+            response.cancelQuit();
+          }
+        });
       }
     }
   }
