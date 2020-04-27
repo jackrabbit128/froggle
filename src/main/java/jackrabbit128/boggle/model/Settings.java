@@ -8,6 +8,9 @@ public final class Settings {
   private static final Duration DEFAULT_GAME_DURATION = determineDefaultGameDuration();
   private static final Locale DEFAULT_BOARD_LANGUAGE = determineDefaultBoardLanguage();
 
+  private Duration _gameDuration;
+  private Locale _boardLanguage;
+
   private static Duration determineDefaultGameDuration() {
     long gameDurationSec = 90;
     try {
@@ -28,11 +31,37 @@ public final class Settings {
     return BoardFactory.getAvailableBoards().iterator().next();
   }
 
+  public Settings() {
+    _gameDuration = DEFAULT_GAME_DURATION;
+    _boardLanguage = DEFAULT_BOARD_LANGUAGE;
+  }
+
+  public void copyFrom(Settings settings) {
+    _gameDuration = settings.getGameDuration();
+    _boardLanguage = settings.getBoardLanguage();
+  }
+
   public static Duration getDefaultGameDuration() {
     return DEFAULT_GAME_DURATION;
   }
 
+  public Duration getGameDuration() {
+    return _gameDuration;
+  }
+
+  public void setGameDuration(Duration gameDuration) {
+    _gameDuration = gameDuration;
+  }
+
   public static Locale getDefaultBoardLanguage() {
     return DEFAULT_BOARD_LANGUAGE;
+  }
+
+  public Locale getBoardLanguage() {
+    return _boardLanguage;
+  }
+
+  public void setBoardLanguage(Locale boardLanguage) {
+    _boardLanguage = boardLanguage;
   }
 }
