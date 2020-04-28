@@ -1,6 +1,8 @@
 .idea/codeStyles/
+.idea/inspectionProfiles/
 .idea/libraries/
 .idea/shelf/
+.idea/checkstyle-idea.xml
 .idea/compiler.xml
 .idea/encodings.xml
 .idea/jarRepositories.xml
