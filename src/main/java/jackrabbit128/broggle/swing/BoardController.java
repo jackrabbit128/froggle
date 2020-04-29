@@ -22,6 +22,7 @@ public final class BoardController {
   private final Settings _settings;
 
   private final Random _random;
+  private long _lastSeed;
   private Status _status;
   private Board _board;
 
@@ -34,6 +35,7 @@ public final class BoardController {
   public BoardController(Settings settings) {
     _settings = Objects.requireNonNull(settings, "settings");
 
+    _lastSeed = getMinimumSeed() - 1;
     _random = new Random();
     _board = createBoard();
     _status = Status.READY;
@@ -76,6 +78,10 @@ public final class BoardController {
   }
 
   public void setSeed(int seed) {
+    if (seed == _lastSeed) {
+      return;
+    }
+
     _random.setSeed(seed);
 
     _view.onSeedChanged(seed);
@@ -89,6 +95,7 @@ public final class BoardController {
     switch (_status) {
       case FINISHED:
         _view.onBoardHidden();
+        generateSeed();
         _status = Status.READY;
         _view.onStatusChanged(_status);
         break;
