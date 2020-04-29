@@ -14,12 +14,16 @@ public final class MainWindow extends JFrame {
   private final BoardController _boardController;
   private final SettingsController _settingsController;
 
+  private boolean _didConfirmExit;
+
   public MainWindow() {
     super(AppInfo.getInstance().getAppName());
 
     Settings settings = new Settings();
     _boardController = new BoardController(settings);
     _settingsController = new SettingsController(settings);
+
+    _didConfirmExit = false;
 
     boolean fullyIntegrated = initDesktopIntegration();
     initLayout(!fullyIntegrated);
@@ -118,12 +122,13 @@ public final class MainWindow extends JFrame {
   }
 
   private boolean confirmExit() {
-    if (_boardController.canShutdownSilently()) {
+    if (_didConfirmExit || _boardController.canShutdownSilently()) {
       return true;
     }
 
     int confirmation = JOptionPane.showConfirmDialog(MainWindow.this, "Game is in progress. Really quit?",
                                                      "Confirm Exit", JOptionPane.YES_NO_OPTION);
-    return confirmation == JOptionPane.YES_OPTION;
+    _didConfirmExit = confirmation == JOptionPane.YES_OPTION;
+    return _didConfirmExit;
   }
 }
