@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Unit Tests" type="JUnit" factoryName="JUnit" singleton="false">
-    <module name="broggle" />
-    <option name="PACKAGE_NAME" value="jackrabbit128.broggle" />
+    <module name="froggle" />
+    <option name="PACKAGE_NAME" value="jackrabbit128.froggle" />
     <option name="MAIN_CLASS_NAME" value="" />
     <option name="METHOD_NAME" value="" />
     <option name="TEST_OBJECT" value="package" />

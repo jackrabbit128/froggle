@@ -1,4 +1,4 @@
-package jackrabbit128.broggle.io;
+package jackrabbit128.froggle.io;
 
 import java.io.BufferedReader;
 import java.io.IOException;

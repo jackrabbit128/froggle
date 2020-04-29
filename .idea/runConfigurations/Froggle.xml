@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Broggle" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="jackrabbit128.broggle.App" />
-    <module name="broggle" />
+  <configuration default="false" name="Froggle" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="jackrabbit128.froggle.App" />
+    <module name="froggle" />
     <option name="VM_PARAMETERS" value="-DgameDurationSec=5" />
     <RunnerSettings RunnerId="Run" />
     <ConfigurationWrapper RunnerId="Run" />

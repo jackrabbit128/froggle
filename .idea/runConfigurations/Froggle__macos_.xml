@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Froggle (macos)" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="jackrabbit128.froggle.App" />
+    <module name="froggle" />
+    <option name="VM_PARAMETERS" value="-Xdock:name=Froggle -DgameDurationSec=5" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

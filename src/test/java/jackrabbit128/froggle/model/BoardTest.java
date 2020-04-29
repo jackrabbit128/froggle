@@ -1,4 +1,4 @@
-package jackrabbit128.broggle.model;
+package jackrabbit128.froggle.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,6 +1,6 @@
-package jackrabbit128.broggle;
+package jackrabbit128.froggle;
 
-import jackrabbit128.broggle.swing.MainWindow;
+import jackrabbit128.froggle.swing.MainWindow;
 
 public final class App {
   public static void main(String[] args) {

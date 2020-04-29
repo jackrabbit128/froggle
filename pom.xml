@@ -3,12 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>jackrabbit128</groupId>
-  <artifactId>broggle</artifactId>
+  <artifactId>froggle</artifactId>
   <version>1.1-SNAPSHOT</version>
 
-  <name>Broggle</name>
+  <name>Froggle</name>
   <description>
-    A simple Boggle-like word-finding game to play with my brother.
+    A simple Boggle-like word-finding game to play with my friends.
     It allows controlling the random seed so that remote players can sync up.
   </description>
   <licenses>
@@ -141,7 +141,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>jackrabbit128.broggle.App</mainClass>
+              <mainClass>jackrabbit128.froggle.App</mainClass>
             </manifest>
           </archive>
         </configuration>

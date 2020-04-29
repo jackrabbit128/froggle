@@ -1,4 +1,4 @@
-= Broggle
+= Froggle
 
-A simple Boggle-like word-finding game to play with my brother.
+A simple Boggle-like word-finding game to play with my friends.
 It allows controlling the random seed so that remote players can sync up.

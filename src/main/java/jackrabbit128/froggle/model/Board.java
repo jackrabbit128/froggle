@@ -1,4 +1,4 @@
-package jackrabbit128.broggle.model;
+package jackrabbit128.froggle.model;
 
 import java.util.*;
 import java.util.stream.Collectors;
