@@ -3,8 +3,7 @@
 A simple Boggle-like word-finding game to play with my friends.
 It allows controlling the random seed so that remote players can sync up.
 
-The idea is that all players install the application locally.
-Use it together with a (video-)chat application to mimic real-life play.
+The idea is that all players install the application locally and use it together with a (video-)chat application.
 By not having any networking, rule-checking or points-counting, players are made to act as in real-life play.
 This way, the social aspect of the game is preserved.
 
