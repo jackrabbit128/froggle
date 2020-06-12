@@ -2,3 +2,16 @@
 
 A simple Boggle-like word-finding game to play with my friends.
 It allows controlling the random seed so that remote players can sync up.
+
+The idea is that all players install the application locally.
+Use it together with a (video-)chat application to mimic real-life play.
+By not having any networking, rule-checking or points-counting, players are made to act as in real-life play.
+This way, the social aspect of the game is preserved.
+
+To play together, everyone fills in the same random seed and press the play button at the same time.
+Everyone then gets the same board and the same amount of time to look for words.
+When the time is elapsed, everyone reads out the words they found.
+If you are the only one that found that word, you get points.
+The amount of points you win for a word of length _n_ is _n_ - 2, with a minimum of 0.
+It is only useful to find words of at least length 3.
+The player who scores the most points (in a pre-agreed number of rounds) is the winner.
